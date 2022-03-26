@@ -57,7 +57,6 @@ enum Platform {
 relationship OneToMany {
     VirServer{wgconf} to Wg
     Wg{client} to Client
-    Wg{peer} to Peer
 }
 
 relationship OneToOne {
