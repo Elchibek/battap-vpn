@@ -61,7 +61,6 @@ relationship OneToMany {
 
 relationship OneToOne {
     Client{tunnel} to Tunnel
-    Peer{client} to Client
 }
 
 // Set pagination options
