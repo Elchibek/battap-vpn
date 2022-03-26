@@ -1,0 +1,69 @@
+@dto(mapstruct)
+entity VirServer { 
+    vpsName String required
+    remoteHost String required
+    remoteUserName String required
+    remotePassword String required
+    remotePort Integer required
+    sessionTimeOut Integer
+    chanelTimeOut Integer
+}
+// password encode decode
+@dto(mapstruct)
+entity Wg {
+    privateKey String required
+    publicKey String required
+    address String required
+    mtu Integer
+    listenPort Integer required
+    postUp String
+    postDown String
+    text TextBlob
+}
+
+@dto(mapstruct)
+entity Client {
+    name String required
+    clientIP String
+    qrCode ImageBlob
+    email String
+    status Boolean required
+    platform Platform
+    description TextBlob
+    bytesReceived String
+    bytesSent String
+    startDate Instant required
+    lastUpdateDate Instant
+}
+
+@dto(mapstruct)
+entity Tunnel {
+    clientPrivateKey String required
+    clientPubKey String required
+    address String required
+    dns String required
+    serverPublicKey String required
+    presharedKey String 
+    andpoint String required
+    allowedIPs String required
+    persistentKeepalive Integer
+    text TextBlob
+}
+
+enum Platform {
+    ANDROID, IOS, LINUX, WINODOWS, MACOS, OTHER
+}
+
+relationship OneToMany {
+    VirServer{wgconf} to Wg
+    Wg{client} to Client
+    Wg{peer} to Peer
+}
+
+relationship OneToOne {
+    Client{tunnel} to Tunnel
+    Peer{client} to Client
+}
+
+// Set pagination options
+paginate VirServer, Wg with infinite-scroll
