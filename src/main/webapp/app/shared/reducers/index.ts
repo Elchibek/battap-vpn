@@ -10,6 +10,14 @@ import activate from 'app/modules/account/activate/activate.reducer';
 import password from 'app/modules/account/password/password.reducer';
 import settings from 'app/modules/account/settings/settings.reducer';
 import passwordReset from 'app/modules/account/password-reset/password-reset.reducer';
+// prettier-ignore
+import virServer from 'app/entities/vir-server/vir-server.reducer';
+// prettier-ignore
+import wg from 'app/entities/wg/wg.reducer';
+// prettier-ignore
+import client from 'app/entities/client/client.reducer';
+// prettier-ignore
+import tunnel from 'app/entities/tunnel/tunnel.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const rootReducer = {
@@ -22,6 +30,10 @@ const rootReducer = {
   passwordReset,
   password,
   settings,
+  virServer,
+  wg,
+  client,
+  tunnel,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 };

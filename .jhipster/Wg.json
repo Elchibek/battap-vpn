@@ -1,0 +1,66 @@
+{
+  "applications": "*",
+  "changelogDate": "20220326173113",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "wg",
+  "fields": [
+    {
+      "fieldName": "privateKey",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "publicKey",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "mtu",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "listenPort",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "postUp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postDown",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "text",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Wg",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "wg",
+      "relationshipName": "client",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "virServer",
+      "otherEntityRelationshipName": "wgconf",
+      "relationshipName": "virServer",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,80 @@
+{
+  "applications": "*",
+  "changelogDate": "20220326173114",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "client",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "clientIP",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "qrCode",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "platform",
+      "fieldType": "Platform",
+      "fieldValues": "ANDROID,IOS,LINUX,WINODOWS,MACOS,OTHER"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "bytesReceived",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bytesSent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastUpdateDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Client",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "tunnel",
+      "otherEntityRelationshipName": "client",
+      "ownerSide": true,
+      "relationshipName": "tunnel",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "wg",
+      "otherEntityRelationshipName": "client",
+      "relationshipName": "wg",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

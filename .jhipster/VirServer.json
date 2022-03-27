@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20220326173112",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "vir_server",
+  "fields": [
+    {
+      "fieldName": "vpsName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "remoteHost",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "remoteUserName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "remotePassword",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "remotePort",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sessionTimeOut",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "chanelTimeOut",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "VirServer",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "wg",
+      "otherEntityRelationshipName": "virServer",
+      "relationshipName": "wgconf",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
