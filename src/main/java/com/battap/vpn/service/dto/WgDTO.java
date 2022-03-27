@@ -11,6 +11,9 @@ public class WgDTO implements Serializable {
 
     private String id;
 
+    @NotNull
+    private String name;
+
     private String privateKey;
 
     private String publicKey;
@@ -37,6 +40,14 @@ public class WgDTO implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPrivateKey() {
@@ -137,6 +148,7 @@ public class WgDTO implements Serializable {
     public String toString() {
         return "WgDTO{" +
             "id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
             ", privateKey='" + getPrivateKey() + "'" +
             ", publicKey='" + getPublicKey() + "'" +
             ", address='" + getAddress() + "'" +

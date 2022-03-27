@@ -15,5 +15,6 @@ public interface WgMapper extends EntityMapper<WgDTO, Wg> {
     @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
     WgDTO toDtoId(Wg wg);
 }

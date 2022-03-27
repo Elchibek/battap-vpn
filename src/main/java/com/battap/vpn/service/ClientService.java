@@ -79,9 +79,10 @@ public class ClientService {
         clientDTO.setQrCodeContentType("image/png");
         clientDTO.setStartDate(Instant.now());
         clientDTO.setLastUpdateDate(Instant.now());
-        Client client = clientMapper.toEntity(clientDTO);
 
-        tunnelService.save(tunnel);
+        clientDTO.setTunnel(tunnelService.save(tunnel));
+
+        Client client = clientMapper.toEntity(clientDTO);
         client = clientRepository.save(client);
         return clientMapper.toDto(client);
     }
@@ -111,6 +112,10 @@ public class ClientService {
 
     public void delete(String id) {
         log.debug("Request to delete Client : {}", id);
+        clientRepository.findById(id).ifPresent(client -> {
+            if(!(client.getTunnel() == null || client.getTunnel().getId().isEmpty()))
+                tunnelService.delete(client.getTunnel().getId());
+        });
         clientRepository.deleteById(id);
     }
 }

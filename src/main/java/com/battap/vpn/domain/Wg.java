@@ -22,6 +22,10 @@ public class Wg implements Serializable {
     private String id;
 
     @NotNull
+    @Field("name")
+    private String name;
+
+    @NotNull
     @Field("private_key")
     private String privateKey;
 
@@ -72,6 +76,19 @@ public class Wg implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Wg name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPrivateKey() {
@@ -246,6 +263,7 @@ public class Wg implements Serializable {
     public String toString() {
         return "Wg{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", privateKey='" + getPrivateKey() + "'" +
             ", publicKey='" + getPublicKey() + "'" +
             ", address='" + getAddress() + "'" +

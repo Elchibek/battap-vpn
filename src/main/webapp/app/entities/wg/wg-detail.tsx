@@ -26,6 +26,10 @@ export const WgDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{wgEntity.id}</dd>
           <dt>
+            <span id="name">Name</span>
+          </dt>
+          <dd>{wgEntity.name}</dd>
+          <dt>
             <span id="privateKey">Private Key</span>
           </dt>
           <dd>{wgEntity.privateKey}</dd>

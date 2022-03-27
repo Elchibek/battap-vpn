@@ -1,5 +1,6 @@
 package com.battap.vpn.service;
 
+import com.battap.vpn.domain.VirServer;
 import com.battap.vpn.domain.Wg;
 import com.battap.vpn.repository.WgRepository;
 import com.battap.vpn.service.crypto.GenKey;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -59,6 +62,9 @@ public class WgService {
             String pubKey = genKey.getPublicKey().toBase64();
             wg.setPrivateKey(privateKey);
             wg.setPublicKey(pubKey);
+            
+        } else {
+            getWgConfig(wgDTO.getId());
         }
         wg = wgRepository.save(wg);
         return wgMapper.toDto(wg);
@@ -66,6 +72,7 @@ public class WgService {
 
     public String getWgConfig(String id) {
         WgDTO wg = wgRepository.findById(id).map(wgMapper::toDto).get();
+
         String conf = ("[Interface]" + 
         "\nPrivateKey = " + wg.getPrivateKey() +
         "\nAddress = " + wg.getAddress() +
@@ -98,6 +105,18 @@ public class WgService {
 
     public Page<WgDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Wgs");
+        // ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
+        // .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+        // .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        // Wg wg = new Wg();
+        // wgRepository.findAll(Example.of(wg, customExampleMatcher));
+
+        // Wg wgs = new Wg();
+        // VirServer vi =  new VirServer();
+        // vi.setId(wg.getVirServer().getId());
+        // wgs.setVirServer(vi);
+        // List<Wg> list = wgRepository.findAll(Example.of(wgs));
+
         return wgRepository.findAll(pageable).map(wgMapper::toDto);
     }
 

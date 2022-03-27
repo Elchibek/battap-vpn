@@ -80,6 +80,16 @@ export const WgUpdate = (props: RouteComponentProps<{ id: string }>) => {
               {!isNew ? 
               <ValidatedField name="id" required readOnly id="wg-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
+                label="Name"
+                id="wg-name"
+                name="name"
+                data-cy="name"
+                type="text"
+                validate={{
+                  required: { value: true, message: 'This field is required.' },
+                }}
+              />
+              <ValidatedField
                 label="Address"
                 id="wg-address"
                 name="address"
@@ -109,7 +119,7 @@ export const WgUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {virServers
                   ? virServers.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.vpsName}
                       </option>
                     ))
                   : null}

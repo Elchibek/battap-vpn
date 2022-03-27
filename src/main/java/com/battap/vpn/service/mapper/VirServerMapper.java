@@ -12,5 +12,6 @@ public interface VirServerMapper extends EntityMapper<VirServerDTO, VirServer> {
     @Named("id")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "vpsName", source = "vpsName")
     VirServerDTO toDtoId(VirServer virServer);
 }

@@ -3,6 +3,7 @@ import { IVirServer } from 'app/shared/model/vir-server.model';
 
 export interface IWg {
   id?: string;
+  name?: string;
   privateKey?: string;
   publicKey?: string;
   address?: string;

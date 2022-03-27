@@ -120,7 +120,7 @@ export const ClientUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {wgs
                   ? wgs.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.name}
                       </option>
                     ))
                   : null}

@@ -121,6 +121,9 @@ export const Wg = (props: RouteComponentProps<{ url: string }>) => {
                   <th className="hand" onClick={sort('id')}>
                     ID <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={sort('name')}>
+                    Name <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th className="hand" onClick={sort('address')}>
                     Address <FontAwesomeIcon icon="sort" />
                   </th>
@@ -141,9 +144,10 @@ export const Wg = (props: RouteComponentProps<{ url: string }>) => {
                         {i + 1}
                       </Button>
                     </td>
+                    <td>{wg.name}</td>
                     <td>{wg.address}</td>
                     <td>{wg.listenPort}</td>
-                    <td>{wg.virServer ? <Link to={`vir-server/${wg.virServer.id}`}>{wg.virServer.id}</Link> : ''}</td>
+                    <td>{wg.virServer ? <Link to={`vir-server/${wg.virServer.id}`}>{wg.virServer.vpsName}</Link> : ''}</td>
                     <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${wg.id}`} color="info" size="sm" data-cy="entityDetailsButton">
