@@ -22,10 +22,12 @@ public class VirServerService {
     private final VirServerRepository virServerRepository;
 
     private final VirServerMapper virServerMapper;
+    private final WgService wgService;
 
-    public VirServerService(VirServerRepository virServerRepository, VirServerMapper virServerMapper) {
+    public VirServerService(VirServerRepository virServerRepository, VirServerMapper virServerMapper, WgService wgService) {
         this.virServerRepository = virServerRepository;
         this.virServerMapper = virServerMapper;
+        this.wgService = wgService;
     }
 
     /**
@@ -35,6 +37,7 @@ public class VirServerService {
      * @return the persisted entity.
      */
     public VirServerDTO save(VirServerDTO virServerDTO) {
+        // sudo apt update && apt upgrade -y
         log.debug("Request to save VirServer : {}", virServerDTO);
         VirServer virServer = virServerMapper.toEntity(virServerDTO);
         virServer = virServerRepository.save(virServer);

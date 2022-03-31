@@ -8,9 +8,13 @@ entity VirServer {
     sessionTimeOut Integer
     chanelTimeOut Integer
 }
+// Wg ны VirServer дин ичинде тузобуз
+// Wg ны жаныдан тузгонду очуробуз
+// Обновления эле кыла алабыз
 // password encode decode
 @dto(mapstruct)
 entity Wg {
+	name String required
     privateKey String required
     publicKey String required
     address String required
@@ -18,9 +22,10 @@ entity Wg {
     listenPort Integer required
     postUp String
     postDown String
-    text TextBlob
 }
 
+// Client авто жана вручную 
+// кылып тузобуз
 @dto(mapstruct)
 entity Client {
     name String required
@@ -55,12 +60,12 @@ enum Platform {
 }
 
 relationship OneToMany {
-    VirServer{wgconf} to Wg
     Wg{client} to Client
 }
 
 relationship OneToOne {
     Client{tunnel} to Tunnel
+    Wg{virServer} to VirServer
 }
 
 // Set pagination options

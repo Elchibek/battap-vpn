@@ -57,11 +57,6 @@ export const WgDetail = (props: RouteComponentProps<{ id: string }>) => {
             <span id="postDown">Post Down</span>
           </dt>
           <dd>{wgEntity.postDown}</dd>
-          <dt>
-            <span id="text">Text</span>
-          </dt>
-          <textarea rows={10} cols={100} name="text" value={wgEntity.text} disabled>
-          </textarea>
           <dt>Vir Server</dt>
           <dd>{wgEntity.virServer ? wgEntity.virServer.id : ''}</dd>
         </dl>

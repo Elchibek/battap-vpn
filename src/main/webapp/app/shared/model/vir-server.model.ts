@@ -1,5 +1,3 @@
-import { IWg } from 'app/shared/model/wg.model';
-
 export interface IVirServer {
   id?: string;
   vpsName?: string;
@@ -9,7 +7,6 @@ export interface IVirServer {
   remotePort?: number;
   sessionTimeOut?: number | null;
   chanelTimeOut?: number | null;
-  wgconfs?: IWg[] | null;
 }
 
 export const defaultValue: Readonly<IVirServer> = {};

@@ -14,8 +14,10 @@ public class WgDTO implements Serializable {
     @NotNull
     private String name;
 
+    @NotNull
     private String privateKey;
 
+    @NotNull
     private String publicKey;
 
     @NotNull
@@ -29,8 +31,6 @@ public class WgDTO implements Serializable {
     private String postUp;
 
     private String postDown;
-
-    private String text;
 
     private VirServerDTO virServer;
 
@@ -106,14 +106,6 @@ public class WgDTO implements Serializable {
         this.postDown = postDown;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public VirServerDTO getVirServer() {
         return virServer;
     }
@@ -156,7 +148,6 @@ public class WgDTO implements Serializable {
             ", listenPort=" + getListenPort() +
             ", postUp='" + getPostUp() + "'" +
             ", postDown='" + getPostDown() + "'" +
-            ", text='" + getText() + "'" +
             ", virServer=" + getVirServer() +
             "}";
     }

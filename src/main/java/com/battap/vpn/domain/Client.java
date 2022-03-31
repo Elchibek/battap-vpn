@@ -66,7 +66,7 @@ public class Client implements Serializable {
 
     @DBRef
     @Field("wg")
-    @JsonIgnoreProperties(value = { "clients", "virServer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "virServer", "clients" }, allowSetters = true)
     private Wg wg;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

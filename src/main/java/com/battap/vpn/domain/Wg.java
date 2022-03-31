@@ -50,18 +50,14 @@ public class Wg implements Serializable {
     @Field("post_down")
     private String postDown;
 
-    @Field("text")
-    private String text;
+    @DBRef
+    @Field("virServer")
+    private VirServer virServer;
 
     @DBRef
     @Field("client")
     @JsonIgnoreProperties(value = { "tunnel", "wg" }, allowSetters = true)
     private Set<Client> clients = new HashSet<>();
-
-    @DBRef
-    @Field("virServer")
-    @JsonIgnoreProperties(value = { "wgconfs" }, allowSetters = true)
-    private VirServer virServer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -182,17 +178,17 @@ public class Wg implements Serializable {
         this.postDown = postDown;
     }
 
-    public String getText() {
-        return this.text;
+    public VirServer getVirServer() {
+        return this.virServer;
     }
 
-    public Wg text(String text) {
-        this.setText(text);
+    public void setVirServer(VirServer virServer) {
+        this.virServer = virServer;
+    }
+
+    public Wg virServer(VirServer virServer) {
+        this.setVirServer(virServer);
         return this;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public Set<Client> getClients() {
@@ -223,19 +219,6 @@ public class Wg implements Serializable {
     public Wg removeClient(Client client) {
         this.clients.remove(client);
         client.setWg(null);
-        return this;
-    }
-
-    public VirServer getVirServer() {
-        return this.virServer;
-    }
-
-    public void setVirServer(VirServer virServer) {
-        this.virServer = virServer;
-    }
-
-    public Wg virServer(VirServer virServer) {
-        this.setVirServer(virServer);
         return this;
     }
 
@@ -271,7 +254,6 @@ public class Wg implements Serializable {
             ", listenPort=" + getListenPort() +
             ", postUp='" + getPostUp() + "'" +
             ", postDown='" + getPostDown() + "'" +
-            ", text='" + getText() + "'" +
             "}";
     }
 }

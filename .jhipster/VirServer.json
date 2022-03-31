@@ -44,13 +44,6 @@
   "name": "VirServer",
   "pagination": "infinite-scroll",
   "readOnly": false,
-  "relationships": [
-    {
-      "otherEntityName": "wg",
-      "otherEntityRelationshipName": "virServer",
-      "relationshipName": "wgconf",
-      "relationshipType": "one-to-many"
-    }
-  ],
+  "relationships": [],
   "service": "serviceClass"
 }

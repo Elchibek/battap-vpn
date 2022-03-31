@@ -127,21 +127,6 @@ export const VirServer = (props: RouteComponentProps<{ url: string }>) => {
                   <th className="hand" onClick={sort('remoteHost')}>
                     Remote Host <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={sort('remoteUserName')}>
-                    Remote User Name <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('remotePassword')}>
-                    Remote Password <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('remotePort')}>
-                    Remote Port <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('sessionTimeOut')}>
-                    Session Time Out <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('chanelTimeOut')}>
-                    Chanel Time Out <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th />
                 </tr>
               </thead>
@@ -155,11 +140,6 @@ export const VirServer = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{virServer.vpsName}</td>
                     <td>{virServer.remoteHost}</td>
-                    <td>{virServer.remoteUserName}</td>
-                    <td>{virServer.remotePassword}</td>
-                    <td>{virServer.remotePort}</td>
-                    <td>{virServer.sessionTimeOut}</td>
-                    <td>{virServer.chanelTimeOut}</td>
                     <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${virServer.id}`} color="info" size="sm" data-cy="entityDetailsButton">

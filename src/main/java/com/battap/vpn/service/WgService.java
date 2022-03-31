@@ -42,11 +42,18 @@ public class WgService {
 
     public WgDTO save(WgDTO wgDTO, Boolean isUpdate) {
         log.debug("Request to save Wg : {}", wgDTO);
+
         Wg wg = wgMapper.toEntity(wgDTO);
-        GenKey genKey = new GenKey();
+
+        if(wg.getName().isEmpty())
+            wg.setName("Client: " + wgRepository.count() + 1);
 
         if(wg.getListenPort() == null)
             wg.setListenPort(51820);
+
+        // ( 10.0.0.0 до 10.0.0.255 )
+        if(wgDTO.getAddress().isEmpty())
+            wg.setAddress("10.0.0.1/24");
 
         if(wg.getMtu() == null)
             wg.setMtu(0);
@@ -58,6 +65,7 @@ public class WgService {
             wg.setPostDown("iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE");
 
         if(!isUpdate){
+            GenKey genKey = new GenKey();
             String privateKey = genKey.getPrivateKey().toBase64();
             String pubKey = genKey.getPublicKey().toBase64();
             wg.setPrivateKey(privateKey);

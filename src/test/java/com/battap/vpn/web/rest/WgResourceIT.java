@@ -19,7 +19,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link WgResource} REST controller.
@@ -28,6 +27,9 @@ import org.springframework.util.Base64Utils;
 @AutoConfigureMockMvc
 @WithMockUser
 class WgResourceIT {
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_PRIVATE_KEY = "AAAAAAAAAA";
     private static final String UPDATED_PRIVATE_KEY = "BBBBBBBBBB";
@@ -49,9 +51,6 @@ class WgResourceIT {
 
     private static final String DEFAULT_POST_DOWN = "AAAAAAAAAA";
     private static final String UPDATED_POST_DOWN = "BBBBBBBBBB";
-
-    private static final String DEFAULT_TEXT = "AAAAAAAAAA";
-    private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/wgs";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -75,14 +74,14 @@ class WgResourceIT {
      */
     public static Wg createEntity() {
         Wg wg = new Wg()
+            .name(DEFAULT_NAME)
             .privateKey(DEFAULT_PRIVATE_KEY)
             .publicKey(DEFAULT_PUBLIC_KEY)
             .address(DEFAULT_ADDRESS)
             .mtu(DEFAULT_MTU)
             .listenPort(DEFAULT_LISTEN_PORT)
             .postUp(DEFAULT_POST_UP)
-            .postDown(DEFAULT_POST_DOWN)
-            .text(DEFAULT_TEXT);
+            .postDown(DEFAULT_POST_DOWN);
         return wg;
     }
 
@@ -94,14 +93,14 @@ class WgResourceIT {
      */
     public static Wg createUpdatedEntity() {
         Wg wg = new Wg()
+            .name(UPDATED_NAME)
             .privateKey(UPDATED_PRIVATE_KEY)
             .publicKey(UPDATED_PUBLIC_KEY)
             .address(UPDATED_ADDRESS)
             .mtu(UPDATED_MTU)
             .listenPort(UPDATED_LISTEN_PORT)
             .postUp(UPDATED_POST_UP)
-            .postDown(UPDATED_POST_DOWN)
-            .text(UPDATED_TEXT);
+            .postDown(UPDATED_POST_DOWN);
         return wg;
     }
 
@@ -124,6 +123,7 @@ class WgResourceIT {
         List<Wg> wgList = wgRepository.findAll();
         assertThat(wgList).hasSize(databaseSizeBeforeCreate + 1);
         Wg testWg = wgList.get(wgList.size() - 1);
+        assertThat(testWg.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testWg.getPrivateKey()).isEqualTo(DEFAULT_PRIVATE_KEY);
         assertThat(testWg.getPublicKey()).isEqualTo(DEFAULT_PUBLIC_KEY);
         assertThat(testWg.getAddress()).isEqualTo(DEFAULT_ADDRESS);
@@ -131,7 +131,6 @@ class WgResourceIT {
         assertThat(testWg.getListenPort()).isEqualTo(DEFAULT_LISTEN_PORT);
         assertThat(testWg.getPostUp()).isEqualTo(DEFAULT_POST_UP);
         assertThat(testWg.getPostDown()).isEqualTo(DEFAULT_POST_DOWN);
-        assertThat(testWg.getText()).isEqualTo(DEFAULT_TEXT);
     }
 
     @Test
@@ -150,6 +149,23 @@ class WgResourceIT {
         // Validate the Wg in the database
         List<Wg> wgList = wgRepository.findAll();
         assertThat(wgList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = wgRepository.findAll().size();
+        // set the field null
+        wg.setName(null);
+
+        // Create the Wg, which fails.
+        WgDTO wgDTO = wgMapper.toDto(wg);
+
+        restWgMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(wgDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Wg> wgList = wgRepository.findAll();
+        assertThat(wgList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -231,14 +247,14 @@ class WgResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(wg.getId())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].privateKey").value(hasItem(DEFAULT_PRIVATE_KEY)))
             .andExpect(jsonPath("$.[*].publicKey").value(hasItem(DEFAULT_PUBLIC_KEY)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].mtu").value(hasItem(DEFAULT_MTU)))
             .andExpect(jsonPath("$.[*].listenPort").value(hasItem(DEFAULT_LISTEN_PORT)))
             .andExpect(jsonPath("$.[*].postUp").value(hasItem(DEFAULT_POST_UP)))
-            .andExpect(jsonPath("$.[*].postDown").value(hasItem(DEFAULT_POST_DOWN)))
-            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
+            .andExpect(jsonPath("$.[*].postDown").value(hasItem(DEFAULT_POST_DOWN)));
     }
 
     @Test
@@ -252,14 +268,14 @@ class WgResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(wg.getId()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.privateKey").value(DEFAULT_PRIVATE_KEY))
             .andExpect(jsonPath("$.publicKey").value(DEFAULT_PUBLIC_KEY))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.mtu").value(DEFAULT_MTU))
             .andExpect(jsonPath("$.listenPort").value(DEFAULT_LISTEN_PORT))
             .andExpect(jsonPath("$.postUp").value(DEFAULT_POST_UP))
-            .andExpect(jsonPath("$.postDown").value(DEFAULT_POST_DOWN))
-            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()));
+            .andExpect(jsonPath("$.postDown").value(DEFAULT_POST_DOWN));
     }
 
     @Test
@@ -278,14 +294,14 @@ class WgResourceIT {
         // Update the wg
         Wg updatedWg = wgRepository.findById(wg.getId()).get();
         updatedWg
+            .name(UPDATED_NAME)
             .privateKey(UPDATED_PRIVATE_KEY)
             .publicKey(UPDATED_PUBLIC_KEY)
             .address(UPDATED_ADDRESS)
             .mtu(UPDATED_MTU)
             .listenPort(UPDATED_LISTEN_PORT)
             .postUp(UPDATED_POST_UP)
-            .postDown(UPDATED_POST_DOWN)
-            .text(UPDATED_TEXT);
+            .postDown(UPDATED_POST_DOWN);
         WgDTO wgDTO = wgMapper.toDto(updatedWg);
 
         restWgMockMvc
@@ -300,6 +316,7 @@ class WgResourceIT {
         List<Wg> wgList = wgRepository.findAll();
         assertThat(wgList).hasSize(databaseSizeBeforeUpdate);
         Wg testWg = wgList.get(wgList.size() - 1);
+        assertThat(testWg.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testWg.getPrivateKey()).isEqualTo(UPDATED_PRIVATE_KEY);
         assertThat(testWg.getPublicKey()).isEqualTo(UPDATED_PUBLIC_KEY);
         assertThat(testWg.getAddress()).isEqualTo(UPDATED_ADDRESS);
@@ -307,7 +324,6 @@ class WgResourceIT {
         assertThat(testWg.getListenPort()).isEqualTo(UPDATED_LISTEN_PORT);
         assertThat(testWg.getPostUp()).isEqualTo(UPDATED_POST_UP);
         assertThat(testWg.getPostDown()).isEqualTo(UPDATED_POST_DOWN);
-        assertThat(testWg.getText()).isEqualTo(UPDATED_TEXT);
     }
 
     @Test
@@ -383,7 +399,7 @@ class WgResourceIT {
         Wg partialUpdatedWg = new Wg();
         partialUpdatedWg.setId(wg.getId());
 
-        partialUpdatedWg.address(UPDATED_ADDRESS).listenPort(UPDATED_LISTEN_PORT);
+        partialUpdatedWg.publicKey(UPDATED_PUBLIC_KEY).mtu(UPDATED_MTU);
 
         restWgMockMvc
             .perform(
@@ -397,14 +413,14 @@ class WgResourceIT {
         List<Wg> wgList = wgRepository.findAll();
         assertThat(wgList).hasSize(databaseSizeBeforeUpdate);
         Wg testWg = wgList.get(wgList.size() - 1);
+        assertThat(testWg.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testWg.getPrivateKey()).isEqualTo(DEFAULT_PRIVATE_KEY);
-        assertThat(testWg.getPublicKey()).isEqualTo(DEFAULT_PUBLIC_KEY);
-        assertThat(testWg.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testWg.getMtu()).isEqualTo(DEFAULT_MTU);
-        assertThat(testWg.getListenPort()).isEqualTo(UPDATED_LISTEN_PORT);
+        assertThat(testWg.getPublicKey()).isEqualTo(UPDATED_PUBLIC_KEY);
+        assertThat(testWg.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testWg.getMtu()).isEqualTo(UPDATED_MTU);
+        assertThat(testWg.getListenPort()).isEqualTo(DEFAULT_LISTEN_PORT);
         assertThat(testWg.getPostUp()).isEqualTo(DEFAULT_POST_UP);
         assertThat(testWg.getPostDown()).isEqualTo(DEFAULT_POST_DOWN);
-        assertThat(testWg.getText()).isEqualTo(DEFAULT_TEXT);
     }
 
     @Test
@@ -419,14 +435,14 @@ class WgResourceIT {
         partialUpdatedWg.setId(wg.getId());
 
         partialUpdatedWg
+            .name(UPDATED_NAME)
             .privateKey(UPDATED_PRIVATE_KEY)
             .publicKey(UPDATED_PUBLIC_KEY)
             .address(UPDATED_ADDRESS)
             .mtu(UPDATED_MTU)
             .listenPort(UPDATED_LISTEN_PORT)
             .postUp(UPDATED_POST_UP)
-            .postDown(UPDATED_POST_DOWN)
-            .text(UPDATED_TEXT);
+            .postDown(UPDATED_POST_DOWN);
 
         restWgMockMvc
             .perform(
@@ -440,6 +456,7 @@ class WgResourceIT {
         List<Wg> wgList = wgRepository.findAll();
         assertThat(wgList).hasSize(databaseSizeBeforeUpdate);
         Wg testWg = wgList.get(wgList.size() - 1);
+        assertThat(testWg.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testWg.getPrivateKey()).isEqualTo(UPDATED_PRIVATE_KEY);
         assertThat(testWg.getPublicKey()).isEqualTo(UPDATED_PUBLIC_KEY);
         assertThat(testWg.getAddress()).isEqualTo(UPDATED_ADDRESS);
@@ -447,7 +464,6 @@ class WgResourceIT {
         assertThat(testWg.getListenPort()).isEqualTo(UPDATED_LISTEN_PORT);
         assertThat(testWg.getPostUp()).isEqualTo(UPDATED_POST_UP);
         assertThat(testWg.getPostDown()).isEqualTo(UPDATED_POST_DOWN);
-        assertThat(testWg.getText()).isEqualTo(UPDATED_TEXT);
     }
 
     @Test

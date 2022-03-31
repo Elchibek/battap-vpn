@@ -71,14 +71,14 @@ class WgGatlingTest extends Simulation {
             .post("/api/wgs")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "privateKey":"SAMPLE_TEXT"
+                "name":"SAMPLE_TEXT"
+                , "privateKey":"SAMPLE_TEXT"
                 , "publicKey":"SAMPLE_TEXT"
                 , "address":"SAMPLE_TEXT"
                 , "mtu":"0"
                 , "listenPort":"0"
                 , "postUp":"SAMPLE_TEXT"
                 , "postDown":"SAMPLE_TEXT"
-                , "text":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_wg_url"))).exitHereIfFailed

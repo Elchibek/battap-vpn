@@ -1,12 +1,8 @@
 package com.battap.vpn.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -46,11 +42,6 @@ public class VirServer implements Serializable {
 
     @Field("chanel_time_out")
     private Integer chanelTimeOut;
-
-    @DBRef
-    @Field("wgconf")
-    @JsonIgnoreProperties(value = { "clients", "virServer" }, allowSetters = true)
-    private Set<Wg> wgconfs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -156,37 +147,6 @@ public class VirServer implements Serializable {
 
     public void setChanelTimeOut(Integer chanelTimeOut) {
         this.chanelTimeOut = chanelTimeOut;
-    }
-
-    public Set<Wg> getWgconfs() {
-        return this.wgconfs;
-    }
-
-    public void setWgconfs(Set<Wg> wgs) {
-        if (this.wgconfs != null) {
-            this.wgconfs.forEach(i -> i.setVirServer(null));
-        }
-        if (wgs != null) {
-            wgs.forEach(i -> i.setVirServer(this));
-        }
-        this.wgconfs = wgs;
-    }
-
-    public VirServer wgconfs(Set<Wg> wgs) {
-        this.setWgconfs(wgs);
-        return this;
-    }
-
-    public VirServer addWgconf(Wg wg) {
-        this.wgconfs.add(wg);
-        wg.setVirServer(this);
-        return this;
-    }
-
-    public VirServer removeWgconf(Wg wg) {
-        this.wgconfs.remove(wg);
-        wg.setVirServer(null);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
