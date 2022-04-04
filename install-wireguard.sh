@@ -20,8 +20,8 @@ function installWireGuard() {
 	# Включить маршрутизацию на сервере
 	echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
     sysctl --system
-	systemctl start "wg-quick@${SERVER_WG_NIC}"
-	systemctl enable "wg-quick@${SERVER_WG_NIC}"
+	systemctl start wg-quick@wg0
+	systemctl enable wg-quick@wg0
 }
 
 # Check for root, virt, OS...
