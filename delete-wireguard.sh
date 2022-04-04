@@ -11,8 +11,8 @@ function isRoot() {
 }
 
 function uninstallWg() {
-		systemctl stop "wg-quick@${SERVER_WG_NIC}"
-		systemctl disable "wg-quick@${SERVER_WG_NIC}"
+		systemctl stop wg-quick@wg0
+		systemctl disable wg-quick@wg0
 		apt-get autoremove --purge -y wireguard
 
 		rm -rf /etc/wireguard
